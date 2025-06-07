@@ -2,31 +2,33 @@ export default class Colors {
   // Primary Colors
   static PRIMARY = '#02A284';
   static PRIMARY_LIGHT = '#81E7D4';
-  
+
   // Background Colors
-  static BACKGROUND = '#f8f8f8';
+  static BACKGROUND = '#F5EBDE';
+  static BACKGROUND_LIGHT = '#F9F5F0';
+
   static WHITE = '#fff';
-  static CARD_BACKGROUND = '#fff';
-  
+  static GRAY = '#E8E8E8';
+
   // Text Colors
-  static TEXT_PRIMARY = '#24231E';
-  static TEXT_SECONDARY = '#666';
+  static COFFEE_700 = '#24231E';
+  static COFFEE_500 = '#615B51';
+  static COFFEE_400 = '#BAAB98';
+  static ORANGE_500 = '#F28830';
+  static BLUE_600 = '#116ECB';
+  static BLUE_100 = '#F1F8FF';
+
+
+  static TEXT_SECONDARY = '#3B3937';
   static TEXT_DARK = '#24231E';
-  static TEXT_WHITE = '#fff';
-  
-  // Accent Colors
-  static ACCENT_GREEN = '#c8e6c9';
-  static ACCENT_TEAL = '#4fd1c7';
-  
-  // Border Colors
-  static BORDER_LIGHT = '#e0e0e0';
-  
-  // Shadow Colors
-  static SHADOW = '#000';
-  
+
+  static GREEN = "#008E74";
+  static GREEN_500 = "#02A284";
+  static BLUE_GRAY_800 = '#1E293B';
+
   // Status Colors
   static SUCCESS = '#4caf50';
-  static ERROR = '#f44336';
+  static ERROR = '#E63A5C';
   static WARNING = '#ff9800';
   static INFO = '#2196f3';
 }

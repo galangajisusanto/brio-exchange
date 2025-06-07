@@ -10,13 +10,43 @@
   },
   "dependencies": {
     "@react-navigation/native": "^7.1.10",
+    "@react-navigation/stack": "^7.3.3",
     "expo": "~53.0.9",
+    "expo-dev-client": "~5.1.8",
+    "expo-local-authentication": "~16.0.4",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
-    "react-native": "0.79.2"
+    "react-native": "0.79.2",
+    "react-native-vector-icons": "^10.2.0",
+    "@expo/vector-icons": "^14.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },
-  "private": true
+  "private": true,
+  "ios": {
+    "supportsTablet": true,
+    "infoPlist": {
+      "NSFaceIDUsageDescription": "This app uses Face ID for secure authentication to access your exchange rate management features."
+    }
+  },
+  "android": {
+    "package": "com.briocorp.brioxchange",
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/adaptive-icon.png",
+      "backgroundColor": "#FFFFFF"
+    },
+    "permissions": [
+      "USE_BIOMETRIC",
+      "USE_FINGERPRINT"
+    ]
+  },
+  "plugins": [
+    [
+      "expo-local-authentication",
+      {
+        "faceIDPermission": "Allow BrioXchange to use Face ID for secure authentication."
+      }
+    ]
+  ]
 }
