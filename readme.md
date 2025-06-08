@@ -33,7 +33,7 @@ A React Native mobile application for managing currency exchange rates with real
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone git@github.com:galangajisusanto/brio-exchange.git
 cd BrioXchange
 ```
 
