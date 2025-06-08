@@ -6,4 +6,9 @@ export default class ExchangeDataSource {
   fetchExchangeRates(page = 1) {
     throw new Error('fetchExchangeRates() must be implemented by subclass');
   }
+
+  fetchExchangeRates(page = 1) {
+    throw new Error('fetchExchangeRates() must be implemented by subclass');
+  }
+
 }

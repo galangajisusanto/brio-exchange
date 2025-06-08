@@ -5,6 +5,9 @@ export default class GetExchangaListUseCase {
 
   async execute(page = 1) {
     try {
+
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
       const result = await this.exchangeRepository.getExchangeRateList(page);
       return {
         success: true,
