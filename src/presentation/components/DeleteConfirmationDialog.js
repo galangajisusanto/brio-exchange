@@ -80,14 +80,15 @@ export default function DeleteConfirmationDialog({
                     >
                         <Animated.View
                             style={[
-                                styles.bottomSheet,
+                                BrioStyles.bottomSheet,
                                 {
                                     transform: [{ translateY: slideAnim }],
                                 }
                             ]}
                         >
                             {/* Handle/Indicator */}
-                            <View style={styles.handle} />
+                            <View style={BrioStyles.handle} />
+                            <VerticalSpace height={90} />
 
                             {/* Delete icon */}
                             <Ionicons name="trash-outline" size={48} color={Colors.ERROR} />
@@ -134,24 +135,6 @@ const styles = StyleSheet.create({
     bottomSheetContainer: {
         justifyContent: 'flex-end',
         flex: 1,
-    },
-    bottomSheet: {
-        backgroundColor: Colors.WHITE,
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        paddingVertical: 24,
-        paddingHorizontal: 20,
-        paddingBottom: 40,
-        alignItems: 'center',
-        minHeight: 280,
-    },
-    handle: {
-        width: 40,
-        height: 4,
-        backgroundColor: Colors.GRAY,
-        borderRadius: 2,
-        marginBottom: 90,
-        alignSelf: 'center',
     },
     buttonContainer: {
         flexDirection: 'row',

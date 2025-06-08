@@ -2,6 +2,23 @@ import { StyleSheet } from 'react-native';
 import Colors from './Colors';
 
 const BrioStyles = StyleSheet.create({
+    handle: {
+        width: 40,
+        height: 4,
+        backgroundColor: Colors.GRAY,
+        borderRadius: 2,
+        alignSelf: 'center',
+    },
+    bottomSheet: {
+        backgroundColor: Colors.WHITE,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        paddingVertical: 24,
+        paddingHorizontal: 20,
+        paddingBottom: 40,
+        alignItems: 'center',
+        minHeight: 280,
+    },
     backgroundImage: {
         flex: 1,
         width: '100%',

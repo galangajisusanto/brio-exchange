@@ -14,6 +14,7 @@ export default class Colors {
   static COFFEE_700 = '#24231E';
   static COFFEE_500 = '#615B51';
   static COFFEE_400 = '#BAAB98';
+  static COFFEE_200 = '#F5EBDE';
   static ORANGE_500 = '#F28830';
   static BLUE_600 = '#116ECB';
   static BLUE_100 = '#F1F8FF';

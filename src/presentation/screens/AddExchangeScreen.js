@@ -156,6 +156,11 @@ export default function AddExchangeScreen({ navigation, route }) {
                             />
                         </View>
                         <Text style={styles.selectedCurrencyText}>{currency}</Text>
+                        <Ionicons
+                            name="chevron-down"
+                            size={16}
+                            color={Colors.TEXT_SECONDARY}
+                        />
                     </View>
                 ) : (
                     <Text style={styles.chooseCurrencyText}>+ Choose</Text>
@@ -191,9 +196,10 @@ export default function AddExchangeScreen({ navigation, route }) {
                     <Text style={styles.rateDisplayText}>
                         1 {formData.mainCurrency} = {formData.rate} {formData.convertToCurrency}
                     </Text>
-                    <Text style={styles.rateDisplayText}>
+                    <Text style={BrioStyles.regularText}>
                         1 {formData.convertToCurrency} = {(1 / formData.rate).toFixed(6)} {formData.mainCurrency}
                     </Text>
+                    <VerticalSpace height={12} />
                     <TouchableOpacity onPress={fetchExchangeRate} style={styles.refreshButton}>
                         <Ionicons name="refresh" size={16} color={Colors.PRIMARY} />
                         <Text style={styles.refreshText}>Refresh</Text>
@@ -377,10 +383,6 @@ const styles = StyleSheet.create({
     currencySelector: {
         paddingVertical: 16,
         paddingHorizontal: 16,
-        backgroundColor: Colors.BACKGROUND_LIGHT,
-        borderRadius: 12,
-        borderWidth: 1,
-        borderColor: Colors.BORDER_LIGHT,
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: 60,
@@ -390,9 +392,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     flagContainer: {
-        width: 32,
-        height: 24,
-        borderRadius: 4,
+        width: 30,
+        height: 30,
+        borderRadius: 15,
         overflow: 'hidden',
         marginRight: 12,
         borderWidth: 0.5,
@@ -408,6 +410,7 @@ const styles = StyleSheet.create({
             fontSize: 16,
             fontWeight: '600',
             color: Colors.TEXT_PRIMARY,
+            marginRight: 8,
         }
     ],
     chooseCurrencyText: {
@@ -440,14 +443,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: Colors.BLUE_100,
         borderRadius: 8,
-        padding: 16,
     },
     rateInfoBar: {
         width: 4,
         backgroundColor: Colors.BLUE_600,
         marginRight: 12,
         borderRadius: 2,
-        minHeight: 40,
+        minHeight: 64,
     },
     rateInfoText: [
         BrioStyles.regularText,
@@ -471,14 +473,12 @@ const styles = StyleSheet.create({
         },
     ],
     rateDisplayContainer: {
-        backgroundColor: Colors.GREEN_100,
         borderRadius: 8,
         padding: 16,
     },
     rateDisplayText: [
         BrioStyles.subTitleText,
         {
-            color: Colors.GREEN_800,
             fontWeight: '600',
             marginBottom: 8,
         }
@@ -497,7 +497,7 @@ const styles = StyleSheet.create({
         }
     ],
     rateErrorContainer: {
-        backgroundColor: Colors.RED_100,
+        backgroundColor: Colors.ERROR,
         borderRadius: 8,
         padding: 16,
         alignItems: 'center',
@@ -505,14 +505,14 @@ const styles = StyleSheet.create({
     rateErrorText: [
         BrioStyles.regularText,
         {
-            color: Colors.RED_800,
+            color: Colors.ERROR,
             marginBottom: 8,
         }
     ],
     retryButton: {
         paddingVertical: 6,
         paddingHorizontal: 12,
-        backgroundColor: Colors.RED_600,
+        backgroundColor: Colors.ERROR,
         borderRadius: 6,
     },
     retryText: [

@@ -8,11 +8,14 @@ import {
     Modal,
     ActivityIndicator,
     StyleSheet,
-    Image
+    Image,
+    Alert,
 } from 'react-native';
 import Colors from '../styles/Colors';
 import BrioStyles from '../styles/BrioStyles';
 import ExchangeUseCaseFactory from '../../domain/usecases/ExchangeUseCaseFactory';
+import { Ionicons } from '@expo/vector-icons';
+import VerticalSpace from './VerticalSpace';
 
 export default function CurrencyListDialog({
     visible,
@@ -99,9 +102,12 @@ export default function CurrencyListDialog({
                     <Text style={styles.currencyCode}>{item}</Text>
                 </View>
                 {isSelected && (
-                    <View style={styles.checkmark}>
-                        <Text style={styles.checkmarkText}>✓</Text>
-                    </View>
+                    <Ionicons
+                        name="checkmark"
+                        size={16}
+                        color={Colors.COFFEE_700}
+                    />
+
                 )}
             </TouchableOpacity>
         );
@@ -117,22 +123,27 @@ export default function CurrencyListDialog({
         <Modal
             visible={visible}
             animationType="slide"
-            presentationStyle="pageSheet"
+            presentationStyle="overFullScreen"
             onRequestClose={onClose}
+            transparent={true}
         >
-            <View style={styles.container}>
+            <View style={styles.modalContainer}>
+
                 {/* Header */}
                 <View style={styles.header}>
+                    <View style={BrioStyles.handle} />
+                    <VerticalSpace height={15} />
                     <Text style={styles.title}>{title}</Text>
-                    <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-                        <Text style={styles.closeButtonText}>✕</Text>
-                    </TouchableOpacity>
                 </View>
 
                 {/* Search */}
                 <View style={styles.searchContainer}>
                     <View style={styles.searchInputContainer}>
-                        <Text style={styles.searchIcon}>🔍</Text>
+                        <Ionicons
+                            name="search-outline"
+                            size={20}
+                            color={Colors.TEXT_SECONDARY}
+                        />
                         <TextInput
                             style={styles.searchInput}
                             placeholder="Search..."
@@ -145,7 +156,7 @@ export default function CurrencyListDialog({
                 </View>
 
                 {/* Content */}
-                <View style={styles.content}>
+                <View style={BrioStyles.container}>
                     {isLoading ? (
                         <View style={styles.loadingContainer}>
                             <ActivityIndicator size="large" color={Colors.PRIMARY} />
@@ -157,7 +168,6 @@ export default function CurrencyListDialog({
                             renderItem={renderCurrencyItem}
                             keyExtractor={(item) => item}
                             showsVerticalScrollIndicator={false}
-                            ItemSeparatorComponent={() => <View style={styles.separator} />}
                             ListEmptyComponent={renderEmptyState}
                             contentContainerStyle={styles.listContainer}
                         />
@@ -169,72 +179,43 @@ export default function CurrencyListDialog({
 }
 
 const styles = StyleSheet.create({
-    container: {
+    modalContainer: {
         flex: 1,
         backgroundColor: Colors.WHITE,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        overflow: 'hidden', // Important to clip the content to the rounded corners
     },
     header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 20,
         paddingVertical: 16,
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.BORDER_LIGHT,
-        backgroundColor: Colors.WHITE,
     },
     title: [
         BrioStyles.titleText,
         {
-            fontSize: 18,
-            fontWeight: '600',
+            fontSize: 16,
         }
     ],
-    closeButton: {
-        width: 32,
-        height: 32,
-        borderRadius: 16,
-        backgroundColor: Colors.BACKGROUND_LIGHT,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    closeButtonText: {
-        fontSize: 16,
-        color: Colors.TEXT_SECONDARY,
-        fontWeight: '600',
-    },
     searchContainer: {
         paddingHorizontal: 20,
         paddingVertical: 16,
         backgroundColor: Colors.WHITE,
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.BORDER_LIGHT,
     },
     searchInputContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: Colors.BACKGROUND_LIGHT,
         borderRadius: 12,
         paddingHorizontal: 12,
-        paddingVertical: 8,
-    },
-    searchIcon: {
-        fontSize: 16,
-        marginRight: 8,
-        color: Colors.TEXT_SECONDARY,
+        borderWidth: 1,
+        borderColor: Colors.BORDER_LIGHT,
     },
     searchInput: [
         BrioStyles.regularText,
         {
             flex: 1,
-            fontSize: 16,
-            color: Colors.TEXT_PRIMARY,
         }
     ],
-    content: {
-        flex: 1,
-        backgroundColor: Colors.BACKGROUND_LIGHT,
-    },
     listContainer: {
         flexGrow: 1,
     },
@@ -262,19 +243,12 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         marginVertical: 4,
         borderRadius: 12,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.05,
-        shadowRadius: 2,
-        elevation: 1,
+
     },
     selectedCurrencyItem: {
-        backgroundColor: Colors.PRIMARY_LIGHT || '#E3F2FD',
+        backgroundColor: Colors.COFFEE_200,
         borderWidth: 1,
-        borderColor: Colors.PRIMARY,
+        borderColor: Colors.COFFEE_400,
     },
     currencyContent: {
         flexDirection: 'row',
@@ -282,13 +256,13 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     flagContainer: {
-        width: 32,
-        height: 32,
-        borderRadius: 6,
+        width: 24,
+        height: 24,
+        borderRadius: 12,
         backgroundColor: Colors.BACKGROUND_LIGHT,
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 12,
+        marginRight: 10,
         overflow: 'hidden',
         borderWidth: 0.5,
         borderColor: Colors.BORDER_LIGHT,
@@ -298,25 +272,8 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     currencyCode: [
-        BrioStyles.subTitleText,
-        {
-            fontWeight: '600',
-            fontSize: 16,
-        }
+        BrioStyles.regularText,
     ],
-    checkmark: {
-        width: 24,
-        height: 24,
-        borderRadius: 12,
-        backgroundColor: Colors.PRIMARY,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    checkmarkText: {
-        color: Colors.WHITE,
-        fontSize: 14,
-        fontWeight: '600',
-    },
     separator: {
         height: 1,
         backgroundColor: 'transparent',
