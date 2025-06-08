@@ -13,12 +13,17 @@ import { Ionicons } from '@expo/vector-icons';
 import Colors from '../styles/Colors';
 import VerticalSpace from '../components/VerticalSpace';
 import BrioStyles from '../styles/BrioStyles';
+import ExchangeUseCaseFactory from '../../domain/usecases/ExchangeUseCaseFactory';
 
 
 export default function AddExchangeScreen({ navigation }) {
     const [mainCurrency, setMainCurrency] = useState(null);
     const [convertToCurrency, setConvertToCurrency] = useState(null);
     const [indicativeRate, setIndicativeRate] = useState(null);
+
+    const exchangeUseCaseFactory = new ExchangeUseCaseFactory();
+    const addExchangeUseCase = exchangeUseCaseFactory.createAddExchangeUseCase();
+    const convertExchangeUseCase = exchangeUseCaseFactory.createConvertRateUseCase();
 
     const handleBackPress = () => {
         navigation.goBack();
@@ -41,10 +46,24 @@ export default function AddExchangeScreen({ navigation }) {
     };
 
     const handleAddToExchangeList = () => {
-        if (mainCurrency && convertToCurrency) {
-            // Add logic to save the exchange pair
-            navigation.goBack();
-        }
+        // if (mainCurrency && convertToCurrency) {
+        //     // Add logic to save the exchange pair
+        //     navigation.goBack();
+        // }
+        convertExchangeUseCase.execute(
+            "USD",
+            "IDR"
+            // rate: 15.888,
+        ).then(result => {
+            if (result.success) {
+                console.log('Exchange rate added successfully:', result.data);
+                navigation.goBack();
+            } else {
+                console.error('Failed to add exchange rate:', result.message);
+            }
+        }).catch(error => {
+            console.error('Error adding exchange rate:', error);
+        });
     };
 
     const isFormValid = mainCurrency && convertToCurrency;
@@ -119,7 +138,8 @@ export default function AddExchangeScreen({ navigation }) {
                 <TouchableOpacity
                     style={[BrioStyles.primaryButton, { backgroundColor: isFormValid ? Colors.GREEN : Colors.GREEN_500 }]}
                     onPress={handleAddToExchangeList}
-                    disabled={!isFormValid}>
+                // disabled={!isFormValid}
+                >
                     <Text style={styles.addButtonText}>Add to exchange list</Text>
                 </TouchableOpacity>
             </View>

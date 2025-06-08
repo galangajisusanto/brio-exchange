@@ -7,4 +7,16 @@ export default class ExchangeRepository {
     throw new Error('deleteExchangeRate not implemented');
   }
 
+  addExchangeRate(body) {
+    throw new Error('addExchangeRate not implemented');
+  }
+
+  fetchCurrencyList() {
+    throw new Error('fetchCountyList not implemented');
+  }
+
+  fetchConvertRate(baseCurrency, targetCurrency) {
+    throw new Error('fetcConvertRate not implemented');
+  }
+
 }

@@ -11,4 +11,16 @@ export default class ExchangeDataSource {
     throw new Error('deleteExchangeRate() must be implemented by subclass');
   }
 
+  addExchangeRate(body) {
+    throw new Error('addExchangeRate() must be implemented by subclass');
+  }
+
+  fetchCurrencyList() {
+    throw new Error('fetchCountyList() must be implemented by subclass');
+  }
+
+  fetchConvertRate(baseCurrency, targetCurrency) {
+    throw new Error('fetcgConvertRate() must be implemented by subclass');
+  }
+
 }

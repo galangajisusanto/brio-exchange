@@ -9,12 +9,7 @@ export default class ExchangeDataSourceImpl extends ExchangeDataSource {
 
     constructor(apiClient = null) {
         super();
-        try {
-            this.apiClient = apiClient || new ApiClient();
-        } catch (error) {
-            console.warn('Failed to create API client:', error);
-            this.apiClient = null;
-        }
+        this.apiClient = apiClient
     }
     async fetchExchangeRates(page = 1) {
         try {
@@ -36,6 +31,39 @@ export default class ExchangeDataSourceImpl extends ExchangeDataSource {
             return response;
         } catch (error) {
             console.error('Failed to delete exchange rate:', error);
+            throw new Error(`Repository error: ${error.message}`);
+        }
+    }
+
+    async addExchangeRate(body) {
+        try {
+            const endpoint = 'exchange_rates';
+            const response = await this.apiClient.post(endpoint, body);
+            return response;
+        } catch (error) {
+            console.error('Failed to add exchange rate:', error);
+            throw new Error(`Repository error: ${error.message}`);
+        }
+    }
+
+    async fetchCurrencyList() {
+        try {
+            const endpoint = 'all?fields=currencies';
+            const response = await this.apiClient.get(endpoint);
+            return response;
+        } catch (error) {
+            console.error('Failed to fetch country list:', error);
+            throw new Error(`Repository error: ${error.message}`);
+        }
+    }
+
+    async fetchConvertRate(baseCurrency, targetCurrency) {
+        try {
+            const endpoint = `latest?base_currency=${baseCurrency}&currencies=${targetCurrency}`;
+            const response = await this.apiClient.get(endpoint);
+            return response;
+        } catch (error) {
+            console.error('Failed to fetch conversion rate:', error);
             throw new Error(`Repository error: ${error.message}`);
         }
     }
