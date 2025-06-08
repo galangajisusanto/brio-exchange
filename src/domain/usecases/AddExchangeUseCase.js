@@ -40,6 +40,7 @@ export default class AddExchangeUseCase {
     }
 
     _validateExchangeData(data) {
+        console.log('Validating exchange data:', data);
         if (!data) {
             return { isValid: false, message: 'Exchange data is required' };
         }

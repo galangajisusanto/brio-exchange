@@ -21,7 +21,7 @@ export default class ExchangeUseCaseFactory {
     }
 
     _generateRestCountriesApiClient() {
-        return new ApiClient('https://restcountries.com/v3.1/all');
+        return new ApiClient('https://restcountries.com/v3.1/');
     }
 
     _generateFreeCurrencyApiClient() {

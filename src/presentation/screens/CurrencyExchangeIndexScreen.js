@@ -88,7 +88,11 @@ export default function CurrencyExchangeScreen({ navigation }) {
     };
 
     const handleCreateExchange = () => {
-        navigation.navigate('AddExchange');
+        navigation.navigate('AddExchange', {
+            onExchangeAdded: () => {
+                handleRefresh();
+            }
+        });
     };
 
     const renderExchangeItem = ({ item }) => (

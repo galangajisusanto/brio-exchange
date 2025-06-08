@@ -41,7 +41,16 @@ export default class ExchangeRepositoryImpl extends ExchangeRepository {
   async fetchCurrencyList() {
     try {
       const response = await this.exchangeDataSource.fetchCurrencyList();
-      return response;
+
+      const currencySet = new Set();
+      response.forEach(country => {
+        if (country.currencies) {
+          Object.keys(country.currencies).forEach(code => currencySet.add(code));
+        }
+      });
+      const currencyList = Array.from(currencySet);
+      console.log('Fetched currency list:', currencyList);
+      return currencyList;
     } catch (error) {
       console.error('Failed to fetch country list:', error);
       throw new Error(`Repository error: ${error.message}`);
@@ -51,7 +60,14 @@ export default class ExchangeRepositoryImpl extends ExchangeRepository {
   async fetchConvertRate(baseCurrency, targetCurrency) {
     try {
       const response = await this.exchangeDataSource.fetchConvertRate(baseCurrency, targetCurrency);
-      return response;
+      if (response && response.data) {
+        const currencyKeys = Object.keys(response.data);
+        if (currencyKeys.length > 0) {
+          const firstCurrencyCode = currencyKeys[0];
+          const firstCurrencyValue = response.data[firstCurrencyCode];
+          return firstCurrencyValue
+        }
+      }
     } catch (error) {
       console.error('Failed to fetch convert rate:', error);
       throw new Error(`Repository error: ${error.message}`);
