@@ -25,7 +25,7 @@ export default class ExchangeUseCaseFactory {
     }
 
     _generateFreeCurrencyApiClient() {
-        return new ApiClient('https://api.freecurrencyapi.com/v1/', 'fca_live_lW1BOpaYIVJW4RdtOuxskO6Vtq9OJbxO9FAndiqE');
+        return new ApiClient('https://api.freecurrencyapi.com/v1/', '{FREE_CURRENCY_API_KEY}');
     }
 
     _getExchangeDataSource(apiClient) {

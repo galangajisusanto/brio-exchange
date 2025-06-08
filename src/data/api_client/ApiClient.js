@@ -1,7 +1,7 @@
 export default class ApiClient {
   constructor(
     baseUrl = 'https://fvvscniadzaapklejpim.supabase.co/rest/v1/',
-    apiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2dnNjbmlhZHphYXBrbGVqcGltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcwOTU2MzgsImV4cCI6MjA2MjY3MTYzOH0.2NPR8_w1kCZxeY6i4BPa1YuidNfcP1uXDUrwjSPyaos'
+    apiKey = '{SUPABASE_API_KEY}' // Replace with your actual Supabase API key
   ) {
     this.baseUrl = baseUrl;
     this.apiKey = apiKey;
