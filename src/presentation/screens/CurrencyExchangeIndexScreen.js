@@ -6,6 +6,9 @@ import VerticalSpace from '../components/VerticalSpace';
 import BrioStyles from '../styles/BrioStyles';
 import ExchangeItem from '../components/ExchangeItem';
 import DeleteConfirmationDialog from '../components/DeleteConfirmationDialog';
+import ExchangeUseCaseFactory from '../../domain/usecases/ExchangeUseCaseFactory';
+
+
 
 export default function CurrencyExchangeScreen({ navigation }) {
     const [exchangeRates, setExchangeRates] = useState([]);
@@ -15,6 +18,10 @@ export default function CurrencyExchangeScreen({ navigation }) {
         itemId: null,
     });
 
+    const exchangeUseCaseFactory = new ExchangeUseCaseFactory();
+    const getExchangeListUseCase = exchangeUseCaseFactory.createGetExchangeListUseCase();
+
+
     useEffect(() => {
         loadExchangeRates();
     }, []);
@@ -22,21 +29,18 @@ export default function CurrencyExchangeScreen({ navigation }) {
     const loadExchangeRates = async () => {
         setIsLoading(true);
         try {
-            // Simulate API call - replace with actual service
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            const result = await getExchangeListUseCase.execute(1);
 
-            // Mock data - replace with actual API response
-            const mockRates = [
-                { id: '1', from: 'USD', to: 'IDR', rate: 15750.50, lastUpdated: '2025-06-05 09:41' },
-                { id: '2', from: 'EUR', to: 'IDR', rate: 17200.30, lastUpdated: '2025-06-05 09:41' },
-                { id: '3', from: 'SGD', to: 'IDR', rate: 11650.75, lastUpdated: '2025-06-05 09:41' },
-                { id: '4', from: 'JPY', to: 'IDR', rate: 105.25, lastUpdated: '2025-06-05 09:41' },
-            ];
-
-            setExchangeRates(mockRates);
+            if (result.success) {
+                setExchangeRates(result.data);
+            } else {
+                Alert.alert('Error', result.message);
+                setExchangeRates([]);
+            }
         } catch (error) {
             console.error('Error loading exchange rates:', error);
             Alert.alert('Error', 'Failed to load exchange rates');
+            setExchangeRates([]);
         } finally {
             setIsLoading(false);
         }
@@ -130,8 +134,6 @@ export default function CurrencyExchangeScreen({ navigation }) {
                 onConfirm={confirmDelete}
             />
         </View>
-
-
     );
 }
 
