@@ -28,4 +28,15 @@ export default class ExchangeDataSourceImpl extends ExchangeDataSource {
             throw new Error(`Repository error: ${error.message}`);
         }
     }
+
+    async deleteExchangeRate(id) {
+        try {
+            const endpoint = `exchange_rates?id=eq.${id}`;
+            const response = await this.apiClient.delete(endpoint);
+            return response;
+        } catch (error) {
+            console.error('Failed to delete exchange rate:', error);
+            throw new Error(`Repository error: ${error.message}`);
+        }
+    }
 }

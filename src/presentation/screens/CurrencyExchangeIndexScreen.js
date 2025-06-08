@@ -19,9 +19,11 @@ export default function CurrencyExchangeScreen({ navigation }) {
         visible: false,
         itemId: null,
     });
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const exchangeUseCaseFactory = new ExchangeUseCaseFactory();
     const getExchangeListUseCase = exchangeUseCaseFactory.createGetExchangeListUseCase();
+    const deleteExchangeUseCase = exchangeUseCaseFactory.createDeleteExchangeUseCase();
 
     useEffect(() => {
         loadExchangeRates();
@@ -107,26 +109,25 @@ export default function CurrencyExchangeScreen({ navigation }) {
     const confirmDelete = async () => {
         if (deleteDialog.itemId) {
             try {
-                // TODO: Call delete API here
-                // await deleteExchangeUseCase.execute(deleteDialog.itemId);
+                setIsDeleting(true);
+                setDeleteDialog({ visible: false, itemId: null });
+                const result = await deleteExchangeUseCase.execute(deleteDialog.itemId);
+                if (result.success) {
+                    // Remove from local state
+                    setExchangeRates(prev => prev.filter(item => item.id !== deleteDialog.itemId));
+                    console.log('Successfully deleted exchange rate:', deleteDialog.itemId);
 
-                // Remove from local state
-                setExchangeRates(prev => prev.filter(item => item.id !== deleteDialog.itemId));
-                console.log('Deleted exchange rate:', deleteDialog.itemId);
-
-                // If we deleted the last item on current page and not on page 1, go to previous page
-                const remainingItems = exchangeRates.filter(item => item.id !== deleteDialog.itemId);
-                if (remainingItems.length === 0 && currentPage > 1) {
-                    const prevPage = currentPage - 1;
-                    setCurrentPage(prevPage);
-                    await loadExchangeRates(prevPage, false);
+                    // Show success message (optional)
+                    Alert.alert('Success', result.message);
+                } else {
+                    Alert.alert('Error', result.message);
                 }
             } catch (error) {
                 console.error('Error deleting exchange rate:', error);
                 Alert.alert('Error', 'Failed to delete exchange rate');
             }
+            setIsDeleting(false);
         }
-        setDeleteDialog({ visible: false, itemId: null });
     };
 
     const cancelDelete = () => {
@@ -240,6 +241,17 @@ export default function CurrencyExchangeScreen({ navigation }) {
                 onCancel={cancelDelete}
                 onConfirm={confirmDelete}
             />
+
+            {/* Optional: Overlay loading indicator while deleting */}
+            {isDeleting ? (
+                <View style={styles.deleteLoadingOverlay}>
+                    <View style={styles.deleteLoadingContainer}>
+                        <ActivityIndicator size="large" color={Colors.PRIMARY} />
+                        <Text style={styles.deleteLoadingText}>Deleting exchange rate...</Text>
+                    </View>
+                </View>
+            ) : null}
+
         </View>
     );
 }
@@ -340,6 +352,36 @@ const styles = StyleSheet.create({
         {
             color: Colors.PRIMARY,
             fontWeight: '600',
+        }
+    ],
+    deleteLoadingOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1000,
+    },
+    deleteLoadingContainer: {
+        backgroundColor: Colors.WHITE,
+        borderRadius: 12,
+        padding: 24,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 8,
+        elevation: 5,
+    },
+    deleteLoadingText: [
+        BrioStyles.regularText,
+        {
+            marginTop: 16,
+            color: Colors.TEXT_SECONDARY,
+            textAlign: 'center',
         }
     ],
 });

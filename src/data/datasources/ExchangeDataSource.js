@@ -7,8 +7,8 @@ export default class ExchangeDataSource {
     throw new Error('fetchExchangeRates() must be implemented by subclass');
   }
 
-  fetchExchangeRates(page = 1) {
-    throw new Error('fetchExchangeRates() must be implemented by subclass');
+  deleteExchangeRate(id) {
+    throw new Error('deleteExchangeRate() must be implemented by subclass');
   }
 
 }

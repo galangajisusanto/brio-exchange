@@ -2,54 +2,15 @@ import ApiClient from '../../data/api_client/ApiClient';
 import ExchangeDataSourceImpl from '../../data/datasources/ExchangeDataSourceImpl';
 import ExchangeRepositoryImpl from '../../data/repositories_impl/ExchangeRepositoryImpl';
 import GetExchangaListUseCase from './GetExchangaListUseCase';
+import DeleteExchangeUseCase from './DeleteExchangeUseCase';
 
-// Simple implementations without inheritance - working versions
-class SimpleExchangeDataSource {
-    constructor() {
-        // No dependencies, just mock data
-    }
-
-    async fetchExchangeRates(page = 1) {
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        const mockRates = [
-            { id: '1', baseCurrency: 'USD', targetCurrency: 'IDR', rate: 15750.50, createdAt: '2025-06-05T09:41:00Z' },
-            { id: '2', baseCurrency: 'EUR', targetCurrency: 'IDR', rate: 17200.30, createdAt: '2025-06-05T09:41:00Z' },
-            { id: '3', baseCurrency: 'SGD', targetCurrency: 'IDR', rate: 11650.75, createdAt: '2025-06-05T09:41:00Z' },
-            { id: '4', baseCurrency: 'JPY', targetCurrency: 'IDR', rate: 105.25, createdAt: '2025-06-05T09:41:00Z' },
-        ];
-
-        return {
-            data: mockRates,
-            page: page,
-            totalPages: 1,
-            totalItems: mockRates.length
-        };
-    }
-}
-
-class SimpleExchangeRepository {
-    constructor(dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    async getExchangeRateList(page = 1) {
-        try {
-            const result = await this.dataSource.fetchExchangeRates(page);
-            return result;
-        } catch (error) {
-            console.error('Repository error:', error);
-            throw error;
-        }
-    }
-}
 
 export default class ExchangeUseCaseFactory {
     constructor() {
         this._exchangeDataSource = null;
         this._exchangeRepository = null;
         this._getExchangeListUseCase = null;
+        this._deleteExchangeUseCase = null;
     }
 
     _getExchangeDataSource() {
@@ -80,10 +41,20 @@ export default class ExchangeUseCaseFactory {
         return this._getExchangeListUseCase;
     }
 
+    createDeleteExchangeUseCase() {
+        if (!this._deleteExchangeUseCase) {
+            this._deleteExchangeUseCase = new DeleteExchangeUseCase(
+                this._getExchangeRepository()
+            );
+        }
+        return this._deleteExchangeUseCase;
+    }
+
     // Reset factory (useful for testing)
     reset() {
         this._exchangeDataSource = null;
         this._exchangeRepository = null;
         this._getExchangeListUseCase = null;
+        this._deleteExchangeUseCase = null;
     }
 }
